@@ -1,0 +1,11 @@
+[package]
+name = "spl-asdlc-livela-sandbox"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+description = "A tiny project on which SPL-ASDLC is exercised end to end, with Livela as the tracker."
+publish = false
+
+[lib]
+name = "spl_asdlc_livela_sandbox"
+path = "src/lib.rs"
