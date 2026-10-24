@@ -1,0 +1,40 @@
+name: ci
+
+# The crate's own CI, before and beside SPL-ASDLC: rustfmt, clippy and the
+# tests on every push to main (no PR reaches main before the method's setup
+# PR; afterwards the setup's pr.yml runs the same suite on each PR, with the
+# test command Livela's settings give it).
+#
+# The repository variable SPL_ASDLC_RUNS_ON (a JSON string such as
+# "ubuntu-latest", or a JSON array of labels such as
+# ["self-hosted","linux","x64"]) moves the job to another runner; unset, it
+# runs on GitHub's hosted Linux runner.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  rust:
+    name: rust
+    runs-on: ${{ fromJSON(vars.SPL_ASDLC_RUNS_ON || '"ubuntu-latest"') }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@7e38f4b43b4db5c8dd498af069a4f6196df1d067 # master
+        with:
+          toolchain: stable
+          components: rustfmt, clippy
+      - run: cargo fmt --all --check
+      - run: cargo clippy --all-targets --locked -- -D warnings
+      - run: cargo test --locked
