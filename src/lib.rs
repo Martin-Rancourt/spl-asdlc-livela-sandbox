@@ -50,3 +50,28 @@ mod farewell_tests {
         assert_eq!(farewell(" "), "Goodbye, world!");
     }
 }
+
+/// The wave for `name`; a blank name waves to the world.
+pub fn wave(name: &str) -> String {
+    let name = name.trim();
+    if name.is_empty() {
+        "Hi, world!".to_string()
+    } else {
+        format!("Hi, {name}!")
+    }
+}
+
+#[cfg(test)]
+mod wave_tests {
+    use super::wave;
+
+    #[test]
+    fn waves_to_a_name() {
+        assert_eq!(wave("sandbox"), "Hi, sandbox!");
+    }
+
+    #[test]
+    fn a_blank_name_waves_to_the_world() {
+        assert_eq!(wave(" "), "Hi, world!");
+    }
+}
