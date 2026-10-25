@@ -1,0 +1,23 @@
+name: pr-title
+
+# Set up by spl-asdlc 1.4.1 from docs/setup/examples/pr-title.yml, pinned at v1.4.
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened, ready_for_review]
+    branches: [main, 'release/**']
+
+concurrency:
+  group: pr-title-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  title:
+    permissions: {}
+    uses: Martin-Rancourt/spl-asdlc/.github/workflows/asdlc-pr-title.yml@v1.4
+    with:
+      title: ${{ github.event.pull_request.title }}
+      head-ref: ${{ github.event.pull_request.head.ref }}
+      base-ref: ${{ github.event.pull_request.base.ref }}

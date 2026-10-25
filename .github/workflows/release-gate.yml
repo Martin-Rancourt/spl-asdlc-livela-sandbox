@@ -1,0 +1,37 @@
+name: release-gate
+
+# Set up by spl-asdlc 1.4.1 from docs/setup/examples/release-gate.yml, pinned at v1.4.
+
+on:
+  push:
+    tags: ['spl-asdlc-livela-sandbox-v*-rc.*']
+  workflow_dispatch:
+    inputs:
+      release_class:
+        description: Diagnostics only; empty reads the class from the tag.
+        type: choice
+        options: ['', routine, sensible]
+        default: ''
+
+concurrency:
+  group: release-gate
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    permissions:
+      contents: read
+      statuses: write
+    uses: Martin-Rancourt/spl-asdlc/.github/workflows/asdlc-release-gate.yml@v1.4
+    with:
+      candidate-tag: spl-asdlc-livela-sandbox-v{version}-rc.{rc}
+      release-tag: spl-asdlc-livela-sandbox-v{version}
+      dispatch-class: ${{ inputs.release_class }}
+      suites: >-
+        [{"id": "tests", "run": "cargo fmt --all --check && cargo clippy --all-targets --locked -- -D warnings && cargo test --locked 2>&1 | tee \"$EVIDENCE_DIR/tests.log\"",
+          "expect-nonempty": "tests.log"}]
+      # The same list as pr.yml's guards.
+      guard-commands: '[]'
