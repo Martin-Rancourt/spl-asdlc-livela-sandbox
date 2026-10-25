@@ -1,0 +1,26 @@
+# .spl-asdlc/config.toml: the configuration of this repository
+# (docs/reference/08-configuration.md), set up with spl-asdlc 1.4.1.
+# The method's shape only: the identities of the installation (the
+# repository, the tracker's team and project, the owner, the
+# coordinators) are in the instance overlay of the host that runs the
+# bridge. Each optional layer is an edit of this file
+# (docs/setup/README.md, "Optional steps").
+
+schema = 1
+
+[product]
+name = "spl-asdlc-livela-sandbox"
+
+[tracker]
+kind = "livela"
+# A PR names its item as livela://item/<id> in its body: the bridge links it.
+link_fallback = "body-url"
+
+[review]
+require_up_to_date = false
+angles = []                            # no PR review: a PR merges on its CI
+
+[release]
+candidate_tag = "spl-asdlc-livela-sandbox-v{version}-rc.{rc}"
+release_tag = "spl-asdlc-livela-sandbox-v{version}"
+angles = []                            # no QA angle: the GO rests on the release CI
