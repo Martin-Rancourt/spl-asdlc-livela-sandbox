@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/Martin-Rancourt/spl-asdlc-livela-sandbox/compare/spl-asdlc-livela-sandbox-v0.1.0...spl-asdlc-livela-sandbox-v0.2.0) (2026-10-25)
+
+
+### Features
+
+* the sandbox waves (LSB-MTZY) ([#3](https://github.com/Martin-Rancourt/spl-asdlc-livela-sandbox/issues/3)) ([f5275da](https://github.com/Martin-Rancourt/spl-asdlc-livela-sandbox/commit/f5275da8c42490215e9e5c4044daa5f80abd3f7d))
+
 ## 0.1.0 (2026-10-25)
 
 
